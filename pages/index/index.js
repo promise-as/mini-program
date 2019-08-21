@@ -5,7 +5,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    msg: '全职高手'
+    msg: '全职高手',
+    userInfo: null,
+    canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
 
   handleParent(){ // 对象简写
@@ -23,10 +25,28 @@ Page({
     // 做一些初始化工作，发送请求，开启定时器
     // console.log('onLoad 页面加载');
 
+    // 查看是否授权
     wx.getSetting({
-      success(res){
-        console.log(res.authSetting['scope.userInfo']);
+      success (res){
+        console.log(res, 1111)
+        if (res.authSetting['scope.userInfo']) {
+          console.log(222)
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+          wx.getUserInfo({
+            success: function(res) {
+              console.log(res.userInfo, 333)
+            }
+          })
+        }
       }
+    })
+  },
+
+  bindGetUserInfo (e) {
+    console.log(e.detail.userInfo, 4444)
+
+    this.setData({
+      userInfo: e.detail.userInfo
     })
   },
 

@@ -1,8 +1,9 @@
 <!--pages/index/index.wxml-->
 <view class="indexContainer">
-  <image class="avatar" src='/images/index/qzgs.jpg'></image>
-  <text class="userName">hello {{msg}}</text>
+  <image class="avatar" src='{{userInfo.avatarUrl}}'></image>
+  <text class="userName">hello {{userInfo.nickName}}</text>
   <view catchtap='handleParent' class="goStudy">
-    <text catchtap='handleChild'>开启小程序之旅</text>
+      <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>
+      <view wx:else>请升级微信版本</view>
   </view>
 </view>
