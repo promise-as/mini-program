@@ -5,17 +5,17 @@ Page({
    * 页面的初始数据
    */
   data: {
-    msg: '全职高手',
-    userInfo: null,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    userInfo: {},
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    isAuth: false // 是否授权
   },
 
-  handleParent(){ // 对象简写
-    // console.log('父元素');
-  },
-
-  handleChild(){ // 对象简写
-    // console.log('子元素');
+  toListPage(){
+    // 点击跳转到list页面
+    wx.navigateTo({
+      url: '/pages/list/list'
+    })
+    
   },
 
   /**
@@ -23,19 +23,21 @@ Page({
    */
   onLoad: function (options) {
     // 做一些初始化工作，发送请求，开启定时器
-    // console.log('onLoad 页面加载');
+    console.log('onLoad 页面加载');
+  },
 
+  getUserInfo(){
     // 查看是否授权
     wx.getSetting({
-      success (res){
+      success: (res) => {
         console.log(res, 1111)
-        if (res.authSetting['scope.userInfo']) {
-          console.log(222)
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-          wx.getUserInfo({
-            success: function(res) {
-              console.log(res.userInfo, 333)
-            }
+        if (res.authSetting['scope.userInfo']) { // 授权
+          this.setData({
+            isAuth: true
+          })
+        }else{ // 没授权
+          this.setData({
+            isAuth: false
           })
         }
       }
@@ -43,10 +45,14 @@ Page({
   },
 
   bindGetUserInfo (e) {
-    console.log(e.detail.userInfo, 4444)
+    // 判断用户是否点击授权按钮了
+    if(e.detail.rawData){
+      this.getUserInfo()
+    }
 
+    // 更新data里的userInfo数据
     this.setData({
-      userInfo: e.detail.userInfo
+      userInfo: e.detail.userInfo,
     })
   },
 

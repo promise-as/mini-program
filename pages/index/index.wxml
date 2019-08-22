@@ -1,9 +1,14 @@
 <!--pages/index/index.wxml-->
 <view class="indexContainer">
   <image class="avatar" src='{{userInfo.avatarUrl}}'></image>
-  <text class="userName">hello {{userInfo.nickName}}</text>
-  <view catchtap='handleParent' class="goStudy">
-      <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>
-      <view wx:else>请升级微信版本</view>
+  <text class="userName" style='display: {{isAuth?"block": "none"}}'>hello {{userInfo.nickName}}</text>
+  <button wx:if="{{canIUse}}" style='display: {{isAuth?"none": "block"}}'
+      open-type="getUserInfo" 
+      bindgetuserinfo="bindGetUserInfo">授权登录</button>
+  <view wx:else>请升级微信版本</view>
+
+  <view catchtap='toListPage' class="goStudy" 
+  style='display: {{isAuth?"block": "none"}}'>
+    <text>开启小程序之旅</text>
   </view>
 </view>
