@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userInfo: {},
+    userInfo: {}, // 用户数据
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     isAuth: false // 是否授权
   },
@@ -15,7 +15,6 @@ Page({
     wx.navigateTo({
       url: '/pages/list/list'
     })
-    
   },
 
   /**

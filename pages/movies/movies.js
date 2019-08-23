@@ -1,6 +1,7 @@
-// pages/list/list.js
-let datas = require('../../datas/list-data.js')
-// console.log(datas, typeof datas)
+// pages/movies/movies.js
+const MOVIE_URL = 'http://t.yushu.im/v2/movie/top250';
+let appDatas = getApp();
+// console.log(appDatas)
 
 Page({
 
@@ -8,33 +9,23 @@ Page({
    * 页面的初始数据
    */
   data: {
-    listArr: [] // 列表数据
+    moviesArr: [] // 电影数据
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      listArr: datas.list_data
-    })
-  },
-
-  // 点击跳转到detail详情页
-  toDetail(event){
-    // console.log(event);
-    // 获取点击跳转对应的下标
-    let index = event.currentTarget.dataset.index;
-    wx.navigateTo({
-      url: '/pages/detail/detail?index=' + index,
-    })
-  },
-  // 点击了轮播图的时候跳转
-  carouselToDetail(event){
-    // console.log(event);
-    let index = event.target.dataset.index;
-    wx.navigateTo({
-      url: '/pages/detail/detail?index=' + index,
+    // 请求数据
+    wx.request({
+      url: MOVIE_URL,
+      success: (data) => {
+        this.setData({
+          moviesArr: data.data.subjects
+        })
+        // 更新全局的电影数据
+        appDatas.data.moviesArr = data.data.subjects;
+      }
     })
   },
 
@@ -49,21 +40,21 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    // console.log('页面隐藏');
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    // console.log('页面卸载')
+
   },
 
   /**
@@ -87,3 +78,4 @@ Page({
 
   }
 })
+
